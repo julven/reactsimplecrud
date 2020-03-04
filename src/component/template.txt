@@ -1,0 +1,72 @@
+----------------------------------------------------------class
+class /*class name here*/ extends Component{
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
+	componentDidMount() {
+
+	}
+	render() {
+		return (
+			<div>
+				
+			</div>
+		);
+	}
+}
+
+ReactDOM.render(
+{/*<Providers store={Store}>*/} /* when using react-redux */
+	< {/*class name here*/} />
+{/*</Providers>*/}	
+, document.getElementById(' ')) /*root class or hook only*/
+----------------------------------------------------------react-redux
+const mapStateToProps = state => ({
+	state: state
+});
+
+const mapDispatchToProps = dispatch => {
+	return {
+		action: () => dispatch({type: '', data: null})
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(/*class or hook name*/);
+----------------------------------------------------------router
+<HashRouter>
+	<ul>
+		<li><Link to="/" > </Link></li>
+
+	</ul>
+	<div className="display-routes">
+		<Route path="/" exact component={  }></Route>
+		
+	</div>
+</HashRouter>
+----------------------------------------------------------redux
+const initState = { };
+
+const store = createStore( (state = initState, action) => {
+	if(action.type == 'setTest') return {  };
+	
+	else return state;
+});
+
+store.subscribe( () => {} ); /*Old method*/
+
+----------------------------------------------------------hooks
+const /*name here*/ = ({}) => {
+	
+	let [ val, setVal ] = useState(null);
+
+	useEffect(() => {
+
+	}, []);
+
+	return (
+		<div>
+
+		</div>
+	);
+}
