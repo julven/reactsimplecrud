@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/storage';
 
 var firebaseConfig = {
     apiKey: "AIzaSyBbCI0VbwnjlY_jLSA9usbwYcMJT7ru0o0",
@@ -14,6 +15,7 @@ var firebaseConfig = {
  firebase.initializeApp(firebaseConfig);
 
  const db = firebase.firestore();
+ const storage = firebase.storage();
 
  var fb = {
 
@@ -54,7 +56,32 @@ var firebaseConfig = {
  			.catch( err => reject(err));
  		})
  			
- 	}
+	 },
+	 storage: (image, id) => {
+		 return new Promise( (resolve, reject) => {
+			 let upload = storage.ref("images/"+image.name).put(image);
+			upload.on(
+				"state_changed",
+				snapshot => {},
+				error => {
+					console.log({error})	
+					reject(error);
+				},
+				() => {
+					storage
+					.ref("images")
+					.child(image.name)
+					.getDownloadURL()
+					.then( url => {
+						console.log({success: url});
+						
+						resolve(url);
+					})
+				}
+			)
+		 })
+		
+	 }
  };
 
  export default fb;

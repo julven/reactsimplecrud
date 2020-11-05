@@ -3,6 +3,7 @@ import fb from './firebase';
 import M from 'materialize-css';
 import $ from 'jquery';
 import moment from 'moment';
+const DEFAULT_IMAGE = "https://firebasestorage.googleapis.com/v0/b/test1-499cb.appspot.com/o/images%2Fdefault.jpeg?alt=media&token=50ae389c-c357-4c3b-a565-140b727cf73d";
 
 
 const Form = ({ tab, type, account }) => {
@@ -134,6 +135,7 @@ const Form = ({ tab, type, account }) => {
     }
     
     const imageChange = (img) => {
+        console.log(img)
 		if(img !== undefined) {
 			uploadImage(img).then(resp => {
                 fb.update('react_list', form.id, {image: resp});
@@ -145,18 +147,20 @@ const Form = ({ tab, type, account }) => {
     
     const uploadImage = (image) => {
 		return new Promise( resolve => {
-			let data = new FormData();
-			data.append( 'image', image );
-			$.ajax({
-				type: 'POST',
-				url: 'https://julvenreactsample.000webhostapp.com/uploads.php',
-				data: data,
-				contentType: false,
-				processData: false
+			// let data = new FormData();
+			// data.append( 'image', image );
+			// $.ajax({
+			// 	type: 'POST',
+			// 	url: 'https://julvenreactsample.000webhostapp.com/uploads.php',
+			// 	data: data,
+			// 	contentType: false,
+			// 	processData: false
 
-			}).then( resp => {
-				resolve(resp);
-			})
+			// }).then( resp => {
+			// 	resolve(resp);
+            // })
+            
+            fb.storage(image).then(resp => resolve(resp));
 		})
     }
     
@@ -220,7 +224,11 @@ const Form = ({ tab, type, account }) => {
                             type === 'update' ?
                             <div>
                                 <small style={{color: "gray"}}>Image</small><br/>
-                                <img src={'https://julvenreactsample.000webhostapp.com/'+image} alt="" style={{width: 120, height: 120, objectFit: 'cover'}}/><br/>
+                                <img 
+                                src={image} 
+                                alt={image}
+                                onError={(e) => e.target.src = DEFAULT_IMAGE}
+                                style={{width: 120, height: 120, objectFit: 'cover'}}/><br/>
                                 <input 
                                 type="file"
 
